@@ -22,17 +22,4 @@ def parse_function(fn: Callable[..., Any]) -> ast.Module:
     Returns:
         AST tree representing `fn`.
     """
-    try:
-        source = inspect.getsource(fn)
-    except Exception:
-        # Maybe running on console.
-        source = dill.source.getsource(fn)
-
-    # Remove extra indentation so that ast.parse runs correctly.
-    source = textwrap.dedent(source)
-
-    tree = ast.parse(source)
-    if not tree.body or not isinstance(tree.body[0], ast.FunctionDef):
-        raise exceptions.LatexifySyntaxError("Not a function.")
-
-    return tree
+    pass

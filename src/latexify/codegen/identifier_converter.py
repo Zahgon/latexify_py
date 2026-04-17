@@ -55,34 +55,4 @@ class IdentifierConverter:
             LatexifyError: Resulting latex is not valid. This most likely occurs where
             the symbol starts or ends with an underscore, and escape_underscores=False.
         """
-        if not self._escape_underscores and "_" in name:
-            # Check if we are going to generate an invalid Latex string. Better to
-            # raise an exception here than have the resulting Latex fail to
-            # compile/display
-            name_splits = name.split("_")
-            if not all(name_splits):
-                raise ValueError(
-                    "Neither preceding/trailing underscores nor double underscores is "
-                    f"allowed by the `escape_underscores` option, but got: {name}"
-                )
-            elems = [
-                IdentifierConverter(
-                    use_math_symbols=self._use_math_symbols,
-                    use_mathrm=False,
-                    escape_underscores=True,
-                ).convert(n)[0]
-                for n in name_splits
-            ]
-            # Wrap sub identifiers in nested braces
-            name = "_{".join(elems) + "}" * (len(elems) - 1)
-
-        if self._use_math_symbols and name in expression_rules.MATH_SYMBOLS:
-            return "\\" + name, True
-
-        if len(name) == 1 and name != "_":
-            return name, True
-
-        escaped = name.replace("_", r"\_") if self._escape_underscores else name
-        wrapped = rf"\mathrm{{{escaped}}}" if self._use_mathrm else escaped
-
-        return wrapped, False
+        pass

@@ -85,19 +85,11 @@ class LatexifiedAlgorithm(LatexifiedRepr):
 
     def _repr_html_(self) -> str | tuple[str, dict[str, Any]] | None:
         """IPython hook to display HTML visualization."""
-        return (
-            '<span style="color: red;">' + self._ipython_error + "</span>"
-            if self._ipython_error is not None
-            else None
-        )
+        pass
 
     def _repr_latex_(self) -> str | tuple[str, dict[str, Any]] | None:
         """IPython hook to display LaTeX visualization."""
-        return (
-            f"$ {self._ipython_latex} $"
-            if self._ipython_latex is not None
-            else self._ipython_error
-        )
+        pass
 
 
 class LatexifiedFunction(LatexifiedRepr):
@@ -123,16 +115,8 @@ class LatexifiedFunction(LatexifiedRepr):
 
     def _repr_html_(self) -> str | tuple[str, dict[str, Any]] | None:
         """IPython hook to display HTML visualization."""
-        return (
-            '<span style="color: red;">' + self._error + "</span>"
-            if self._error is not None
-            else None
-        )
+        pass
 
     def _repr_latex_(self) -> str | tuple[str, dict[str, Any]] | None:
         """IPython hook to display LaTeX visualization."""
-        return (
-            rf"$$ \displaystyle {self._latex} $$"
-            if self._latex is not None
-            else self._error
-        )
+        pass

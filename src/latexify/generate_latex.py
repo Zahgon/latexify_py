@@ -42,44 +42,4 @@ def get_latex(
     Raises:
         latexify.exceptions.LatexifyError: Something went wrong during conversion.
     """
-    merged_config = cfg.Config.defaults().merge(config=config, **kwargs)
-
-    # Obtains the source AST.
-    tree = parser.parse_function(fn)
-
-    # Mandatory AST Transformation.
-    tree = transformers.AugAssignReplacer().visit(tree)
-
-    # Conditional AST transformation.
-    if merged_config.prefixes is not None:
-        tree = transformers.PrefixTrimmer(merged_config.prefixes).visit(tree)
-    if merged_config.identifiers is not None:
-        tree = transformers.IdentifierReplacer(merged_config.identifiers).visit(tree)
-    if merged_config.reduce_assignments:
-        tree = transformers.DocstringRemover().visit(tree)
-        tree = transformers.AssignmentReducer().visit(tree)
-    if merged_config.expand_functions is not None:
-        tree = transformers.FunctionExpander(merged_config.expand_functions).visit(tree)
-
-    # Generates LaTeX.
-    if style == Style.ALGORITHMIC:
-        return codegen.AlgorithmicCodegen(
-            use_math_symbols=merged_config.use_math_symbols,
-            use_set_symbols=merged_config.use_set_symbols,
-            escape_underscores=merged_config.escape_underscores,
-        ).visit(tree)
-    elif style == Style.FUNCTION:
-        return codegen.FunctionCodegen(
-            use_math_symbols=merged_config.use_math_symbols,
-            use_signature=merged_config.use_signature,
-            use_set_symbols=merged_config.use_set_symbols,
-            escape_underscores=merged_config.escape_underscores,
-        ).visit(tree)
-    elif style == Style.IPYTHON_ALGORITHMIC:
-        return codegen.IPythonAlgorithmicCodegen(
-            use_math_symbols=merged_config.use_math_symbols,
-            use_set_symbols=merged_config.use_set_symbols,
-            escape_underscores=merged_config.escape_underscores,
-        ).visit(tree)
-
-    raise ValueError(f"Unrecognized style: {style}")
+    pass

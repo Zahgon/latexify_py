@@ -84,7 +84,7 @@ class Latex:
         Returns:
             A new expression with surrounding brackets.
         """
-        return Latex("[" + str(src) + "]")
+        pass
 
     @staticmethod
     def arg(src: LatexLike) -> Latex:
@@ -99,7 +99,7 @@ class Latex:
         Returns:
             A new expression with surrounding brackets.
         """
-        return Latex("{" + str(src) + "}")
+        pass
 
     @staticmethod
     def paren(src: LatexLike) -> Latex:
@@ -111,7 +111,7 @@ class Latex:
         Returns:
             A new expression with surrounding brackets.
         """
-        return Latex(r"\mathopen{}\left( " + str(src) + r" \mathclose{}\right)")
+        pass
 
     @staticmethod
     def curly(src: LatexLike) -> Latex:
@@ -123,7 +123,7 @@ class Latex:
         Returns:
             A new expression with surrounding brackets.
         """
-        return Latex(r"\mathopen{}\left\{ " + str(src) + r" \mathclose{}\right\}")
+        pass
 
     @staticmethod
     def square(src: LatexLike) -> Latex:
@@ -135,7 +135,7 @@ class Latex:
         Returns:
             A new expression with surrounding brackets.
         """
-        return Latex(r"\mathopen{}\left[ " + str(src) + r" \mathclose{}\right]")
+        pass
 
     @staticmethod
     def command(
@@ -154,13 +154,7 @@ class Latex:
         Returns:
             A new expression.
         """
-        elms: list[LatexLike] = [rf"\{name}"]
-        if options is not None:
-            elms += [Latex.opt(x) for x in options]
-        if args is not None:
-            elms += [Latex.arg(x) for x in args]
-
-        return Latex.join("", elms)
+        pass
 
     @staticmethod
     def environment(
@@ -181,18 +175,7 @@ class Latex:
         Returns:
             A new expression.
         """
-        begin_elms: list[LatexLike] = [rf"\begin{{{name}}}"]
-        if options is not None:
-            begin_elms += [Latex.opt(x) for x in options]
-        if args is not None:
-            begin_elms += [Latex.arg(x) for x in args]
-
-        env_elms: list[LatexLike] = [Latex.join("", begin_elms)]
-        if content is not None:
-            env_elms.append(content)
-        env_elms.append(rf"\end{{{name}}}")
-
-        return Latex.join(" ", env_elms)
+        pass
 
     @staticmethod
     def join(separator: LatexLike, elements: Iterable[LatexLike]) -> Latex:
@@ -206,4 +189,4 @@ class Latex:
             A new Latex: "{e[0]}{s}{e[1]}{s}...{s}{e[-1]}"
             where s == separator, and e == elements.
         """
-        return Latex(str(separator).join(str(x) for x in elements))
+        pass

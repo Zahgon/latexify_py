@@ -53,14 +53,7 @@ class PrefixTrimmer(ast.NodeTransformer):
         Returns:
             The prefix tuple, or None if the node has unsupported syntax.
         """
-        if isinstance(node, ast.Name):
-            return (node.id,)
-
-        if isinstance(node, ast.Attribute):
-            parent = self._get_prefix(node.value)
-            return parent + (node.attr,) if parent is not None else None
-
-        return None
+        pass
 
     def _make_attribute(self, prefix: tuple[str, ...], name: str) -> ast.expr:
         """Helper to generate a new Attribute or Name node.
@@ -72,27 +65,8 @@ class PrefixTrimmer(ast.NodeTransformer):
         Returns:
             Name node if prefix == (), (possibly nested) Attribute node otherwise.
         """
-        if not prefix:
-            return ast_utils.make_name(name)
-
-        parent = self._make_attribute(prefix[:-1], prefix[-1])
-        return ast_utils.make_attribute(parent, name)
+        pass
 
     def visit_Attribute(self, node: ast.Attribute) -> ast.expr:
         """Visit an Attribute node."""
-        prefix = self._get_prefix(node.value)
-        if prefix is None:
-            return node
-
-        # Performs leftmost longest match.
-        # NOTE(odashi):
-        # This implementation is very naive, but would work efficiently as long as the
-        # number of patterns is small.
-        matched_length = 0
-
-        for p in self._prefixes:
-            length = min(len(p), len(prefix))
-            if prefix[:length] == p and length > matched_length:
-                matched_length = length
-
-        return self._make_attribute(prefix[matched_length:], node.attr)
+        pass

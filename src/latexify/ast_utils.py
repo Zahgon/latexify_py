@@ -16,7 +16,7 @@ def parse_expr(code: str) -> ast.expr:
     Returns:
         ast.expr corresponding to `code`.
     """
-    return ast.parse(code, mode="eval").body
+    pass
 
 
 def make_name(id: str) -> ast.Name:
@@ -41,7 +41,7 @@ def make_attribute(value: ast.expr, attr: str):
     Returns:
         Generated ast.Attribute.
     """
-    return ast.Attribute(value=value, attr=attr, ctx=ast.Load())
+    pass
 
 
 def make_constant(value: Any) -> ast.expr:
@@ -56,14 +56,7 @@ def make_constant(value: Any) -> ast.expr:
     Raises:
         ValueError: Unsupported value type.
     """
-    if (
-        value is None
-        or value is ...
-        or isinstance(value, (bool, int, float, complex, str, bytes))
-    ):
-        return ast.Constant(value=value)
-
-    raise ValueError(f"Unsupported type to generate Constant: {type(value).__name__}")
+    pass
 
 
 def is_constant(node: ast.AST) -> bool:
@@ -75,7 +68,7 @@ def is_constant(node: ast.AST) -> bool:
     Returns:
         True if the node is a constant, False otherwise.
     """
-    return isinstance(node, ast.Constant)
+    pass
 
 
 def is_str(node: ast.AST) -> bool:
@@ -87,10 +80,7 @@ def is_str(node: ast.AST) -> bool:
     Returns:
         True if the node is a str constant, False otherwise.
     """
-    if sys.version_info.minor < 8 and isinstance(node, ast.Str):
-        return True
-
-    return isinstance(node, ast.Constant) and isinstance(node.value, str)
+    pass
 
 
 def extract_int_or_none(node: ast.expr) -> int | None:
@@ -102,14 +92,7 @@ def extract_int_or_none(node: ast.expr) -> int | None:
     Returns:
         Extracted int value, or None if extraction failed.
     """
-    if (
-        isinstance(node, ast.Constant)
-        and isinstance(node.value, int)
-        and not isinstance(node.value, bool)
-    ):
-        return node.value
-
-    return None
+    pass
 
 
 def extract_int(node: ast.expr) -> int:
@@ -124,12 +107,7 @@ def extract_int(node: ast.expr) -> int:
     Raises:
         ValueError: Not a subtree containing an int value.
     """
-    value = extract_int_or_none(node)
-
-    if value is None:
-        raise ValueError(f"Unsupported node to extract int: {type(node).__name__}")
-
-    return value
+    pass
 
 
 def extract_function_name_or_none(node: ast.Call) -> str | None:
@@ -141,12 +119,7 @@ def extract_function_name_or_none(node: ast.Call) -> str | None:
     Returns:
         Extracted function name, or None if not found.
     """
-    if isinstance(node.func, ast.Name):
-        return node.func.id
-    if isinstance(node.func, ast.Attribute):
-        return node.func.attr
-
-    return None
+    pass
 
 
 def create_function_def(
@@ -183,29 +156,4 @@ def create_function_def(
     Returns:
         ast.FunctionDef: The generated FunctionDef node.
     """
-    if sys.version_info.minor < 12:
-        return ast.FunctionDef(
-            name=name,
-            args=args,
-            body=body,
-            decorator_list=decorator_list,
-            returns=returns,
-            type_comment=type_comment,
-            lineno=lineno,
-            col_offset=col_offset,
-            end_lineno=end_lineno,
-            end_col_offset=end_col_offset,
-        )  # type: ignore
-    return ast.FunctionDef(
-        name=name,
-        args=args,
-        body=body,
-        decorator_list=decorator_list,
-        returns=returns,
-        type_comment=type_comment,
-        type_params=type_params,
-        lineno=lineno,
-        col_offset=col_offset,
-        end_lineno=end_lineno,
-        end_col_offset=end_col_offset,
-    )  # type: ignore
+    pass

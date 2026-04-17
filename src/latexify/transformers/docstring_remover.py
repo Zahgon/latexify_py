@@ -15,6 +15,4 @@ class DocstringRemover(ast.NodeTransformer):
     """
 
     def visit_Expr(self, node: ast.Expr) -> Union[ast.Expr, None]:
-        if ast_utils.is_str(node.value):
-            return None
-        return node
+        pass

@@ -48,18 +48,7 @@ class Config:
         Returns:
             A new Config object
         """
-
-        def merge_field(name: str) -> Any:
-            # Precedence: kwargs -> config -> self
-            arg = kwargs.get(name)
-            if arg is None:
-                if config is not None:
-                    arg = getattr(config, name)
-                else:
-                    arg = getattr(self, name)
-            return arg
-
-        return Config(**{f.name: merge_field(f.name) for f in dataclasses.fields(self)})
+        pass
 
     @staticmethod
     def defaults() -> Config:
@@ -68,13 +57,4 @@ class Config:
         Returns:
             A new Config with default values
         """
-        return Config(
-            expand_functions=None,
-            identifiers=None,
-            prefixes=None,
-            reduce_assignments=False,
-            use_math_symbols=False,
-            use_set_symbols=False,
-            use_signature=True,
-            escape_underscores=True,
-        )
+        pass

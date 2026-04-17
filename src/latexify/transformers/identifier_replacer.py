@@ -44,34 +44,12 @@ class IdentifierReplacer(ast.NodeTransformer):
 
     def _replace_args(self, args: list[ast.arg]) -> list[ast.arg]:
         """Helper function to replace arg names."""
-        return [ast.arg(arg=self._mapping.get(a.arg, a.arg)) for a in args]
+        pass
 
     def visit_FunctionDef(self, node: ast.FunctionDef) -> ast.FunctionDef:
         """Visit a FunctionDef node."""
-        visited = cast(ast.FunctionDef, super().generic_visit(node))
-
-        args = ast.arguments(
-            posonlyargs=self._replace_args(visited.args.posonlyargs),
-            args=self._replace_args(visited.args.args),
-            vararg=visited.args.vararg,
-            kwonlyargs=self._replace_args(visited.args.kwonlyargs),
-            kw_defaults=visited.args.kw_defaults,
-            kwarg=visited.args.kwarg,
-            defaults=visited.args.defaults,
-        )
-        type_params = getattr(visited, "type_params", [])
-        return ast_utils.create_function_def(
-            name=self._mapping.get(visited.name, visited.name),
-            args=args,
-            body=visited.body,
-            decorator_list=visited.decorator_list,
-            returns=visited.returns,
-            type_params=type_params,
-        )
+        pass
 
     def visit_Name(self, node: ast.Name) -> ast.Name:
         """Visit a Name node."""
-        return ast.Name(
-            id=self._mapping.get(node.id, node.id),
-            ctx=node.ctx,
-        )
+        pass

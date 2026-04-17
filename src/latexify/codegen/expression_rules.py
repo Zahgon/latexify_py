@@ -68,18 +68,7 @@ def get_precedence(node: ast.AST) -> int:
         If `node` is a subtree with some operator, returns the precedence of the
         operator. Otherwise, returns a number larger enough from other precedences.
     """
-    if isinstance(node, ast.Call):
-        return _CALL_PRECEDENCE
-
-    if isinstance(node, (ast.BinOp, ast.UnaryOp, ast.BoolOp)):
-        return _PRECEDENCES[type(node.op)]
-
-    if isinstance(node, ast.Compare):
-        # Compare operators have the same precedence. It is enough to check only the
-        # first operator.
-        return _PRECEDENCES[type(node.ops[0])]
-
-    return _INF_PRECEDENCE
+    pass
 
 
 @dataclasses.dataclass(frozen=True)

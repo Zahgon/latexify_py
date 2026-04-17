@@ -41,13 +41,7 @@ def algorithmic(
         - If `fn` is passed, returns the wrapped function.
         - Otherwise, returns the wrapper function with given settings.
     """
-    if fn is not None:
-        return ipython_wrappers.LatexifiedAlgorithm(fn, **kwargs)
-
-    def wrapper(f):
-        return ipython_wrappers.LatexifiedAlgorithm(f, **kwargs)
-
-    return wrapper
+    pass
 
 
 @overload
@@ -83,13 +77,7 @@ def function(
         - If `fn` is passed, returns the wrapped function.
         - Otherwise, returns the wrapper function with given settings.
     """
-    if fn is not None:
-        return ipython_wrappers.LatexifiedFunction(fn, **kwargs)
-
-    def wrapper(f):
-        return ipython_wrappers.LatexifiedFunction(f, **kwargs)
-
-    return wrapper
+    pass
 
 
 @overload
@@ -115,12 +103,4 @@ def expression(
     This function is a shortcut for `latexify.function` with the default parameter
     `use_signature=False`.
     """
-    kwargs["use_signature"] = kwargs.get("use_signature", False)
-
-    if fn is not None:
-        return ipython_wrappers.LatexifiedFunction(fn, **kwargs)
-
-    def wrapper(f):
-        return ipython_wrappers.LatexifiedFunction(f, **kwargs)
-
-    return wrapper
+    pass
