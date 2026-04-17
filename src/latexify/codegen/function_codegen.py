@@ -1,13 +1,9 @@
 """Codegen for single functions."""
-
 from __future__ import annotations
-
 import ast
 import sys
-
 from latexify import ast_utils, exceptions
 from latexify.codegen import codegen_utils, expression_codegen, identifier_converter
-
 
 class FunctionCodegen(ast.NodeVisitor):
     """Codegen for single functions.
@@ -15,18 +11,10 @@ class FunctionCodegen(ast.NodeVisitor):
     This codegen works for Module with single FunctionDef node to generate a single
     LaTeX expression of the given function.
     """
-
     _identifier_converter: identifier_converter.IdentifierConverter
     _use_signature: bool
 
-    def __init__(
-        self,
-        *,
-        use_math_symbols: bool = False,
-        use_signature: bool = True,
-        use_set_symbols: bool = False,
-        escape_underscores: bool = True,
-    ) -> None:
+    def __init__(self, *, use_math_symbols: bool=False, use_signature: bool=True, use_set_symbols: bool=False, escape_underscores: bool=True) -> None:
         """Initializer.
 
         Args:
@@ -36,20 +24,12 @@ class FunctionCodegen(ast.NodeVisitor):
                 or not.
             use_set_symbols: Whether to use set symbols or not.
         """
-        self._expression_codegen = expression_codegen.ExpressionCodegen(
-            use_math_symbols=use_math_symbols,
-            use_set_symbols=use_set_symbols,
-            escape_underscores=escape_underscores,
-        )
-        self._identifier_converter = identifier_converter.IdentifierConverter(
-            use_math_symbols=use_math_symbols, escape_underscores=escape_underscores
-        )
+        self._expression_codegen = expression_codegen.ExpressionCodegen(use_math_symbols=use_math_symbols, use_set_symbols=use_set_symbols, escape_underscores=escape_underscores)
+        self._identifier_converter = identifier_converter.IdentifierConverter(use_math_symbols=use_math_symbols, escape_underscores=escape_underscores)
         self._use_signature = use_signature
 
     def generic_visit(self, node: ast.AST) -> str:
-        raise exceptions.LatexifyNotSupportedError(
-            f"Unsupported AST: {type(node).__name__}"
-        )
+        pass
 
     def visit_Module(self, node: ast.Module) -> str:
         """Visit a Module node."""

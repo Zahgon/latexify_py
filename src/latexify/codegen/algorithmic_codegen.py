@@ -1,14 +1,10 @@
 """Codegen for single algorithms."""
-
 from __future__ import annotations
-
 import ast
 import contextlib
 from collections.abc import Generator
-
 from latexify import exceptions
 from latexify.codegen import expression_codegen, identifier_converter
-
 
 class AlgorithmicCodegen(ast.NodeVisitor):
     """Codegen for single algorithms.
@@ -16,19 +12,11 @@ class AlgorithmicCodegen(ast.NodeVisitor):
     This codegen works for Module with single FunctionDef node to generate a single
     LaTeX expression of the given algorithm.
     """
-
     _SPACES_PER_INDENT = 4
-
     _identifier_converter: identifier_converter.IdentifierConverter
     _indent_level: int
 
-    def __init__(
-        self,
-        *,
-        use_math_symbols: bool = False,
-        use_set_symbols: bool = False,
-        escape_underscores: bool = True,
-    ) -> None:
+    def __init__(self, *, use_math_symbols: bool=False, use_set_symbols: bool=False, escape_underscores: bool=True) -> None:
         """Initializer.
 
         Args:
@@ -36,22 +24,12 @@ class AlgorithmicCodegen(ast.NodeVisitor):
                 (e.g., "alpha") to the LaTeX symbol (e.g., "\\alpha").
             use_set_symbols: Whether to use set symbols or not.
         """
-        self._expression_codegen = expression_codegen.ExpressionCodegen(
-            use_math_symbols=use_math_symbols,
-            use_set_symbols=use_set_symbols,
-            escape_underscores=escape_underscores,
-        )
-        self._identifier_converter = identifier_converter.IdentifierConverter(
-            use_math_symbols=use_math_symbols,
-            use_mathrm=False,
-            escape_underscores=escape_underscores,
-        )
+        self._expression_codegen = expression_codegen.ExpressionCodegen(use_math_symbols=use_math_symbols, use_set_symbols=use_set_symbols, escape_underscores=escape_underscores)
+        self._identifier_converter = identifier_converter.IdentifierConverter(use_math_symbols=use_math_symbols, use_mathrm=False, escape_underscores=escape_underscores)
         self._indent_level = 0
 
     def generic_visit(self, node: ast.AST) -> str:
-        raise exceptions.LatexifyNotSupportedError(
-            f"Unsupported AST: {type(node).__name__}"
-        )
+        pass
 
     def visit_Assign(self, node: ast.Assign) -> str:
         """Visit an Assign node."""
@@ -65,12 +43,10 @@ class AlgorithmicCodegen(ast.NodeVisitor):
         """Visit a For node."""
         pass
 
-    # TODO(ZibingZhang): support nested functions
     def visit_FunctionDef(self, node: ast.FunctionDef) -> str:
         """Visit a FunctionDef node."""
         pass
 
-    # TODO(ZibingZhang): support \ELSIF
     def visit_If(self, node: ast.If) -> str:
         """Visit an If node."""
         pass
@@ -112,27 +88,18 @@ class AlgorithmicCodegen(ast.NodeVisitor):
         """
         pass
 
-
 class IPythonAlgorithmicCodegen(ast.NodeVisitor):
     """Codegen for single algorithms targeting IPython.
 
     This codegen works for Module with single FunctionDef node to generate a single
     LaTeX expression of the given algorithm.
     """
-
     _EM_PER_INDENT = 1
-    _LINE_BREAK = r" \\ "
-
+    _LINE_BREAK = ' \\\\ '
     _identifier_converter: identifier_converter.IdentifierConverter
     _indent_level: int
 
-    def __init__(
-        self,
-        *,
-        use_math_symbols: bool = False,
-        use_set_symbols: bool = False,
-        escape_underscores: bool = True,
-    ) -> None:
+    def __init__(self, *, use_math_symbols: bool=False, use_set_symbols: bool=False, escape_underscores: bool=True) -> None:
         """Initializer.
 
         Args:
@@ -140,20 +107,12 @@ class IPythonAlgorithmicCodegen(ast.NodeVisitor):
                 (e.g., "alpha") to the LaTeX symbol (e.g., "\\alpha").
             use_set_symbols: Whether to use set symbols or not.
         """
-        self._expression_codegen = expression_codegen.ExpressionCodegen(
-            use_math_symbols=use_math_symbols,
-            use_set_symbols=use_set_symbols,
-            escape_underscores=escape_underscores,
-        )
-        self._identifier_converter = identifier_converter.IdentifierConverter(
-            use_math_symbols=use_math_symbols, escape_underscores=escape_underscores
-        )
+        self._expression_codegen = expression_codegen.ExpressionCodegen(use_math_symbols=use_math_symbols, use_set_symbols=use_set_symbols, escape_underscores=escape_underscores)
+        self._identifier_converter = identifier_converter.IdentifierConverter(use_math_symbols=use_math_symbols, escape_underscores=escape_underscores)
         self._indent_level = 0
 
     def generic_visit(self, node: ast.AST) -> str:
-        raise exceptions.LatexifyNotSupportedError(
-            f"Unsupported AST: {type(node).__name__}"
-        )
+        pass
 
     def visit_Assign(self, node: ast.Assign) -> str:
         """Visit an Assign node."""
@@ -167,12 +126,10 @@ class IPythonAlgorithmicCodegen(ast.NodeVisitor):
         """Visit a For node."""
         pass
 
-    # TODO(ZibingZhang): support nested functions
     def visit_FunctionDef(self, node: ast.FunctionDef) -> str:
         """Visit a FunctionDef node."""
         pass
 
-    # TODO(ZibingZhang): support \ELSIF
     def visit_If(self, node: ast.If) -> str:
         """Visit an If node."""
         pass

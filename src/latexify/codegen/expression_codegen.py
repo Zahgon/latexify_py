@@ -1,29 +1,17 @@
 """Codegen for single expressions."""
-
 from __future__ import annotations
-
 import ast
 import re
-
 from latexify import analyzers, ast_utils, exceptions
 from latexify.codegen import codegen_utils, expression_rules, identifier_converter
 
-
 class ExpressionCodegen(ast.NodeVisitor):
     """Codegen for single expressions."""
-
     _identifier_converter: identifier_converter.IdentifierConverter
-
     _bin_op_rules: dict[type[ast.operator], expression_rules.BinOpRule]
     _compare_ops: dict[type[ast.cmpop], str]
 
-    def __init__(
-        self,
-        *,
-        use_math_symbols: bool = False,
-        use_set_symbols: bool = False,
-        escape_underscores: bool = True,
-    ) -> None:
+    def __init__(self, *, use_math_symbols: bool=False, use_set_symbols: bool=False, escape_underscores: bool=True) -> None:
         """Initializer.
 
         Args:
@@ -31,25 +19,12 @@ class ExpressionCodegen(ast.NodeVisitor):
                 surface (e.g., "alpha") to the LaTeX symbol (e.g., "\\alpha").
             use_set_symbols: Whether to use set symbols or not.
         """
-        self._identifier_converter = identifier_converter.IdentifierConverter(
-            use_math_symbols=use_math_symbols, escape_underscores=escape_underscores
-        )
-
-        self._bin_op_rules = (
-            expression_rules.SET_BIN_OP_RULES
-            if use_set_symbols
-            else expression_rules.BIN_OP_RULES
-        )
-        self._compare_ops = (
-            expression_rules.SET_COMPARE_OPS
-            if use_set_symbols
-            else expression_rules.COMPARE_OPS
-        )
+        self._identifier_converter = identifier_converter.IdentifierConverter(use_math_symbols=use_math_symbols, escape_underscores=escape_underscores)
+        self._bin_op_rules = expression_rules.SET_BIN_OP_RULES if use_set_symbols else expression_rules.BIN_OP_RULES
+        self._compare_ops = expression_rules.SET_COMPARE_OPS if use_set_symbols else expression_rules.COMPARE_OPS
 
     def generic_visit(self, node: ast.AST) -> str:
-        raise exceptions.LatexifyNotSupportedError(
-            f"Unsupported AST: {type(node).__name__}"
-        )
+        pass
 
     def visit_Tuple(self, node: ast.Tuple) -> str:
         """Visit a Tuple node."""
@@ -193,39 +168,31 @@ class ExpressionCodegen(ast.NodeVisitor):
         """Visit a Name node."""
         pass
 
-    # From Python 3.8
     def visit_Constant(self, node: ast.Constant) -> str:
         """Visit a Constant node."""
         pass
 
-    # Until Python 3.7
     def visit_Num(self, node: ast.Num) -> str:
         """Visit a Num node."""
         pass
 
-    # Until Python 3.7
     def visit_Str(self, node: ast.Str) -> str:
         """Visit a Str node."""
         pass
 
-    # Until Python 3.7
     def visit_Bytes(self, node: ast.Bytes) -> str:
         """Visit a Bytes node."""
         pass
 
-    # Until Python 3.7
     def visit_NameConstant(self, node: ast.NameConstant) -> str:
         """Visit a NameConstant node."""
         pass
 
-    # Until Python 3.7
     def visit_Ellipsis(self, node: ast.Ellipsis) -> str:
         """Visit an Ellipsis node."""
         pass
 
-    def _wrap_operand(
-        self, child: ast.expr, parent_prec: int, force_wrap: bool = False
-    ) -> str:
+    def _wrap_operand(self, child: ast.expr, parent_prec: int, force_wrap: bool=False) -> str:
         """Wraps the operand subtree with parentheses.
 
         Args:
@@ -238,12 +205,7 @@ class ExpressionCodegen(ast.NodeVisitor):
         """
         pass
 
-    def _wrap_binop_operand(
-        self,
-        child: ast.expr,
-        parent_prec: int,
-        operand_rule: expression_rules.BinOperandRule,
-    ) -> str:
+    def _wrap_binop_operand(self, child: ast.expr, parent_prec: int, operand_rule: expression_rules.BinOperandRule) -> str:
         """Wraps the operand subtree of BinOp with parentheses.
 
         Args:
@@ -255,14 +217,11 @@ class ExpressionCodegen(ast.NodeVisitor):
             LaTeX form of the `child`, with or without surrounding parentheses.
         """
         pass
+    _l_bracket_pattern = re.compile('^\\\\mathopen.*')
+    _r_bracket_pattern = re.compile('.*\\\\mathclose[^ ]+$')
+    _r_word_pattern = re.compile('\\\\mathrm\\{[^ ]+\\}$')
 
-    _l_bracket_pattern = re.compile(r"^\\mathopen.*")
-    _r_bracket_pattern = re.compile(r".*\\mathclose[^ ]+$")
-    _r_word_pattern = re.compile(r"\\mathrm\{[^ ]+\}$")
-
-    def _should_remove_multiply_op(
-        self, l_latex: str, r_latex: str, l_expr: ast.expr, r_expr: ast.expr
-    ):
+    def _should_remove_multiply_op(self, l_latex: str, r_latex: str, l_expr: ast.expr, r_expr: ast.expr):
         """Determine whether the multiply operator should be removed or not.
 
         See also:
@@ -308,10 +267,8 @@ class ExpressionCodegen(ast.NodeVisitor):
         """
         pass
 
-    def _get_sum_prod_info(
-        self, node: ast.GeneratorExp
-    ) -> tuple[str, list[tuple[str, str]]]:
-        r"""Process GeneratorExp for sum and prod functions.
+    def _get_sum_prod_info(self, node: ast.GeneratorExp) -> tuple[str, list[tuple[str, str]]]:
+        """Process GeneratorExp for sum and prod functions.
 
         Args:
             node: GeneratorExp node to be analyzed.
@@ -321,8 +278,8 @@ class ExpressionCodegen(ast.NodeVisitor):
                 - elt
                 - scripts
             which are used to represent sum/prod operators as follows:
-                \sum_{scripts[0][0]}^{scripts[0][1]}
-                    \sum_{scripts[1][0]}^{scripts[1][1]}
+                \\sum_{scripts[0][0]}^{scripts[0][1]}
+                    \\sum_{scripts[1][0]}^{scripts[1][1]}
                     ...
                     {elt}
 
@@ -331,7 +288,6 @@ class ExpressionCodegen(ast.NodeVisitor):
         """
         pass
 
-    # Until 3.8
     def visit_Index(self, node: ast.Index) -> str:
         """Visit an Index node."""
         pass

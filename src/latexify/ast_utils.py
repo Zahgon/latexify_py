@@ -1,11 +1,8 @@
 """Utilities to generate AST nodes."""
-
 from __future__ import annotations
-
 import ast
 import sys
 from typing import Any
-
 
 def parse_expr(code: str) -> ast.expr:
     """Parses given Python expression.
@@ -18,7 +15,6 @@ def parse_expr(code: str) -> ast.expr:
     """
     pass
 
-
 def make_name(id: str) -> ast.Name:
     """Generates a new Name node.
 
@@ -28,8 +24,7 @@ def make_name(id: str) -> ast.Name:
     Returns:
         Generated ast.Name.
     """
-    return ast.Name(id=id, ctx=ast.Load())
-
+    pass
 
 def make_attribute(value: ast.expr, attr: str):
     """Generates a new Attribute node.
@@ -42,7 +37,6 @@ def make_attribute(value: ast.expr, attr: str):
         Generated ast.Attribute.
     """
     pass
-
 
 def make_constant(value: Any) -> ast.expr:
     """Generates a new Constant node.
@@ -58,7 +52,6 @@ def make_constant(value: Any) -> ast.expr:
     """
     pass
 
-
 def is_constant(node: ast.AST) -> bool:
     """Checks if the node is a constant.
 
@@ -69,7 +62,6 @@ def is_constant(node: ast.AST) -> bool:
         True if the node is a constant, False otherwise.
     """
     pass
-
 
 def is_str(node: ast.AST) -> bool:
     """Checks if the node is a str constant.
@@ -82,7 +74,6 @@ def is_str(node: ast.AST) -> bool:
     """
     pass
 
-
 def extract_int_or_none(node: ast.expr) -> int | None:
     """Extracts int constant from the given Constant node.
 
@@ -93,7 +84,6 @@ def extract_int_or_none(node: ast.expr) -> int | None:
         Extracted int value, or None if extraction failed.
     """
     pass
-
 
 def extract_int(node: ast.expr) -> int:
     """Extracts int constant from the given Constant node.
@@ -109,7 +99,6 @@ def extract_int(node: ast.expr) -> int:
     """
     pass
 
-
 def extract_function_name_or_none(node: ast.Call) -> str | None:
     """Extracts function name from the given Call node.
 
@@ -121,20 +110,7 @@ def extract_function_name_or_none(node: ast.Call) -> str | None:
     """
     pass
 
-
-def create_function_def(
-    name,
-    args,
-    body,
-    decorator_list,
-    returns=None,
-    type_comment=None,
-    type_params=None,
-    lineno=None,
-    col_offset=None,
-    end_lineno=None,
-    end_col_offset=None,
-) -> ast.FunctionDef:
+def create_function_def(name, args, body, decorator_list, returns=None, type_comment=None, type_params=None, lineno=None, col_offset=None, end_lineno=None, end_col_offset=None) -> ast.FunctionDef:
     """Creates a FunctionDef node.
 
     This function generates an `ast.FunctionDef` node, optionally removing
